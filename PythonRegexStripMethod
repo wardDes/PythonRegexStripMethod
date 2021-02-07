@@ -1,0 +1,39 @@
+import re, sys
+# sample '   xoxo love xoxo    '
+# sample 'SpamSpamBaconSpamEggsSpamSpam'
+
+isInLoop = False
+# outer loop
+while True:
+    # inner loop
+    while True:
+        if isInLoop == True:
+            stripstr = input("""
+            Have another string to strip? 
+            Enter here OR enter "q" to exit program. """)
+        else:
+            stripstr = input("""
+            Enter a string to remove unwanted spaces from its beginning and end 
+            OR enter "q" to exit program. """)
+        if stripstr == "q":
+            sys.exit() # Quit the program
+        stripstrchars = input('''
+        If there are character(s) you want to remove from the beginning and end 
+        of the string enter them WITHOUT spaces and press the 'Enter' key
+        OR simple press the 'Enter' key if no characters are to be stripped. ''')
+        if stripstrchars == "":
+            strpspcsfront = re.compile('^([ ])+')
+            strpspcsback = re.compile('([ ])+$')
+            stripstr = strpspcsfront.sub("", stripstr)
+            stripstr = strpspcsback.sub("",stripstr)
+            print(stripstr)            
+            isInLoop = True
+        else:
+            rgxfront = '^([ ' + stripstrchars + '])+'
+            rgxback = '([ ' + stripstrchars + '])+$'
+            strpspcsfront = re.compile(rgxfront)
+            strpspcsback = re.compile(rgxback)
+            stripstr = strpspcsfront.sub("", stripstr)
+            stripstr = strpspcsback.sub("",stripstr)
+            print(stripstr)
+            isInLoop = True
